@@ -1,0 +1,33 @@
+/* 🌐 Global Reset & Base Styles */
+html,
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Poppins", sans-serif;
+  padding: 0;
+  margin: 0;
+  background-color: #f9fafb;
+  color: #222;
+  width: 100%;
+  height: auto;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* 🧭 Layout for main container */
+main {
+  display: flex;
+  flex-direction: column; /* Stack vertically */
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  min-height: 100vh;
+  padding: 30px 0;
+  background-color: #f9fafb;
+}
