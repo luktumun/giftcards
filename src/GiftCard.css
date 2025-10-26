@@ -1,120 +1,120 @@
 .giftcard-page {
   text-align: center;
   padding: 20px;
-  background: #fafafa;
-  min-height: 100vh;
+  background: #f7f9fc;
 }
 
 .email-input input {
+  padding: 10px;
   width: 90%;
   max-width: 400px;
-  padding: 12px;
-  margin-bottom: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
+  margin-bottom: 20px;
 }
 
 .cards-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 20px;
-  justify-items: center;
-  width: 90%;
-  max-width: 1200px;
-  margin: auto;
 }
 
 .giftcard-card {
+  width: 90%;
+  max-width: 360px;
   background: white;
-  border-radius: 16px;
+  border-radius: 15px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  padding: 16px;
-  width: 100%;
-  max-width: 350px;
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.2s ease;
+  padding: 15px;
+  transition: transform 0.3s;
 }
 
 .giftcard-card:hover {
-  transform: translateY(-5px);
+  transform: scale(1.02);
 }
 
 .giftcard-image {
   position: relative;
-  border-radius: 12px;
+  width: 100%;
+  height: 220px;
   overflow: hidden;
+  border-radius: 12px;
 }
 
 .giftcard-image img {
   width: 100%;
-  height: 200px;
-  object-fit: cover;
-  pointer-events: none;
+  height: 100%;
+  object-fit: contain;
   user-select: none;
-  -webkit-user-drag: none;
 }
 
 .blurred img {
-  filter: blur(6px) brightness(0.8);
+  filter: blur(10px);
+  pointer-events: none;
 }
 
 .status-badge {
   position: absolute;
   top: 10px;
-  right: 10px;
-  background: #000000aa;
-  color: white;
-  padding: 5px 10px;
+  left: 10px;
+  background: #fff;
+  padding: 6px 10px;
   border-radius: 8px;
-  font-size: 0.9rem;
+  font-size: 14px;
 }
 
-.status-badge.verified {
-  background: #4caf50cc;
+.verified {
+  background: #c8f7c5;
 }
-.status-badge.soldout {
-  background: #e53935cc;
+.available {
+  background: #e8f5e9;
+}
+.soldout {
+  background: #ffcdd2;
 }
 
 .qr-section {
-  margin-top: 15px;
+  margin-top: 10px;
 }
 
 .qr-image {
-  width: 180px;
-  height: 180px;
-  border-radius: 10px;
-  margin: 10px auto;
+  width: 200px;
+  height: 200px;
+  border: 2px dashed #ddd;
+  border-radius: 8px;
+  margin-top: 10px;
 }
 
-button {
-  padding: 10px 15px;
+.download-btn {
+  display: inline-block;
   margin-top: 10px;
   background: #007bff;
-  border: none;
-  border-radius: 8px;
   color: white;
-  cursor: pointer;
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: 0.3s;
 }
 
-button:disabled {
-  background: #aaa;
+.download-btn:hover {
+  background: #0056b3;
 }
 
 .status-message {
-  margin-top: 25px;
-  font-size: 1rem;
+  margin-top: 20px;
+  font-weight: 600;
   color: #333;
 }
 
-/* 📱 Mobile */
+/* 📱 Mobile responsiveness */
 @media (max-width: 600px) {
-  .cards-container {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
   .giftcard-card {
-    max-width: 95%;
+    width: 95%;
+  }
+
+  .qr-image {
+    width: 160px;
+    height: 160px;
   }
 }

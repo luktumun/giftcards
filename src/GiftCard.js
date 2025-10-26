@@ -2,29 +2,33 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./GiftCard.css";
 
-const BACKEND_URL = "https://giftcardbackend-yjp5.onrender.com"; // change this
+const BACKEND_URL = "https://giftcardbackend-yjp5.onrender.com"; // 🔗 Replace with your backend URL
 
 const GiftCard = () => {
   const [giftCards, setGiftCards] = useState([]);
   const [email, setEmail] = useState("");
+  const [txnId, setTxnId] = useState("");
   const [selectedCard, setSelectedCard] = useState(null);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // 🟢 Fetch available cards
   useEffect(() => {
-    async function loadCards() {
+    async function fetchCards() {
       try {
         const res = await axios.get(`${BACKEND_URL}/api/cards`);
         setGiftCards(res.data);
       } catch (err) {
-        console.error("Error fetching cards:", err);
+        console.error("Error loading cards:", err);
       }
     }
-    loadCards();
+    fetchCards();
   }, []);
 
-  const createOrder = async (cardId) => {
+  // 🧾 Generate QR
+  const generateQR = async (cardId) => {
     if (!email) return alert("Please enter your email first!");
+
     setLoading(true);
     setSelectedCard(cardId);
     setMessage("");
@@ -34,6 +38,7 @@ const GiftCard = () => {
         email,
         cardId,
       });
+
       if (res.data.success) {
         setGiftCards((prev) =>
           prev.map((c) =>
@@ -41,42 +46,59 @@ const GiftCard = () => {
               ? {
                   ...c,
                   qrImage: res.data.qrImage,
-                  orderId: res.data.orderId,
                   upi: res.data.upi,
+                  orderId: res.data.orderId,
                   payable: res.data.amount,
                   status: "processing",
                 }
               : c
           )
         );
-        setMessage("✅ Scan Paytm QR and complete your payment.");
+        setMessage("✅ Scan the Paytm QR to complete your payment.");
       } else {
-        setMessage("❌ Failed to create order.");
+        setMessage("❌ Failed to generate QR.");
       }
-    } catch {
-      setMessage("❌ Server error while creating order.");
+    } catch (err) {
+      console.error(err);
+      setMessage("❌ Server error while generating QR.");
     }
+
     setLoading(false);
   };
 
+  // 🟩 Verify Payment
   const verifyPayment = async (cardId, orderId) => {
+    if (!email || !txnId)
+      return alert("Enter both email and UPI Transaction ID.");
+
     setLoading(true);
-    setMessage("⏳ Checking payment status...");
+    setMessage("⏳ Verifying your payment...");
+
     try {
       const res = await axios.post(`${BACKEND_URL}/api/verify-payment`, {
+        email,
+        txnId,
         orderId,
+        cardId,
       });
+
       if (res.data.success) {
         setGiftCards((prev) =>
-          prev.map((c) => (c.id === cardId ? { ...c, status: "verified" } : c))
+          prev.map((c) =>
+            c.id === cardId
+              ? { ...c, status: "verified", downloadUrl: res.data.downloadUrl }
+              : c
+          )
         );
         setMessage("✅ Payment verified! Gift card sent to your email.");
       } else {
         setMessage("❌ " + res.data.message);
       }
-    } catch {
-      setMessage("❌ Error verifying payment.");
+    } catch (err) {
+      console.error(err);
+      setMessage("❌ Verification error.");
     }
+
     setLoading(false);
   };
 
@@ -87,7 +109,7 @@ const GiftCard = () => {
       <div className="email-input">
         <input
           type="email"
-          placeholder="Enter your email to receive the card"
+          placeholder="Enter your email to receive your gift card"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -95,7 +117,13 @@ const GiftCard = () => {
 
       <div className="cards-container">
         {giftCards.map((card) => (
-          <div key={card.id} className="giftcard-card">
+          <div
+            key={card.id}
+            className={`giftcard-card ${
+              card.status === "soldout" ? "card-disabled" : ""
+            }`}
+          >
+            {/* 🔒 Image section (blurred until verified) */}
             <div
               className={`giftcard-image ${
                 card.status !== "verified" ? "blurred" : ""
@@ -105,6 +133,7 @@ const GiftCard = () => {
                 src={`${BACKEND_URL}${card.image}`}
                 alt={card.brand}
                 draggable="false"
+                onContextMenu={(e) => e.preventDefault()}
               />
               <div className={`status-badge ${card.status || "available"}`}>
                 {card.status === "verified"
@@ -115,41 +144,68 @@ const GiftCard = () => {
               </div>
             </div>
 
+            {/* Gift Card Details */}
             <h2>{card.brand}</h2>
             <p>
               Value: <strong>{card.value}</strong>
             </p>
-            <p>
-              Payable: <strong>₹{card.payable}</strong>
-            </p>
             <p>Expiry: {card.expiry}</p>
+            <p>
+              Payable Amount: <strong>₹{card.payable}</strong>
+            </p>
 
-            {card.qrImage && (
+            {/* Payment QR section */}
+            {card.qrImage && card.status !== "soldout" ? (
               <div className="qr-section">
-                <img src={card.qrImage} alt="QR Code" className="qr-image" />
+                <img
+                  src={card.qrImage}
+                  alt="Paytm QR"
+                  className="qr-image"
+                  draggable="false"
+                />
                 <p>
-                  Pay ₹{card.payable} to {card.upi}
+                  Pay <strong>₹{card.payable}</strong> to{" "}
+                  <strong>{card.upi}</strong>
                 </p>
+                <input
+                  type="text"
+                  placeholder="Enter UPI Transaction ID (e.g. T123456789)"
+                  value={txnId}
+                  onChange={(e) => setTxnId(e.target.value)}
+                />
                 <button
                   onClick={() => verifyPayment(card.id, card.orderId)}
                   disabled={loading}
                 >
-                  {loading ? "Checking..." : "Verify Payment"}
+                  {loading ? "Verifying..." : "Verify Payment"}
                 </button>
               </div>
+            ) : (
+              card.status !== "soldout" && (
+                <button
+                  onClick={() => generateQR(card.id)}
+                  disabled={loading || card.status === "verified"}
+                >
+                  {loading && selectedCard === card.id
+                    ? "Generating..."
+                    : card.status === "verified"
+                    ? "🎉 Purchased"
+                    : "🧾 Pay via Paytm"}
+                </button>
+              )
             )}
 
-            {!card.qrImage && (
-              <button
-                onClick={() => createOrder(card.id)}
-                disabled={loading || card.status === "verified"}
+            {/* ✅ Download button (only when verified) */}
+            {card.status === "verified" && card.downloadUrl && (
+              <a
+                href={card.downloadUrl}
+                className="download-btn"
+                download
+                target="_blank"
+                rel="noreferrer"
               >
-                {loading && selectedCard === card.id
-                  ? "Generating..."
-                  : card.status === "verified"
-                  ? "🎉 Purchased"
-                  : "🧾 Pay via Paytm"}
-              </button>
+                ⬇️ Download Gift Card
+              </a>
             )}
           </div>
         ))}
