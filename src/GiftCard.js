@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./GiftCard.css";
 
-const BACKEND_URL = "https://your-backend-url.onrender.com"; // Replace with your backend URL
+const BACKEND_URL = "https://giftcardbackend-yjp5.onrender.com"; // Replace with your backend URL
 
 const GiftCard = () => {
   const [giftCards, setGiftCards] = useState([]);
@@ -132,6 +132,9 @@ const GiftCard = () => {
               Value: <strong>{card.value}</strong>
             </p>
             <p>Expiry: {card.expiry}</p>
+            <p>
+              Value: <strong>{card.payable}</strong>
+            </p>
 
             {card.qrImage && card.status !== "soldout" ? (
               <div className="qr-section">
