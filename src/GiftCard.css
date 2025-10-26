@@ -106,6 +106,24 @@
   font-weight: 600;
   color: #333;
 }
+.contact-admin {
+  background-color: #fff4cc;
+  border-bottom: 2px solid #ffd633;
+  padding: 10px 20px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.contact-admin a {
+  color: #007bff;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.contact-admin a:hover {
+  text-decoration: underline;
+}
+
 
 /* 📱 Mobile responsiveness */
 @media (max-width: 600px) {
