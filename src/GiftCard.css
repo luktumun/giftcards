@@ -1,111 +1,12 @@
+/* 🌟 Main page styling */
 .giftcard-page {
   text-align: center;
   padding: 20px;
   background: #f7f9fc;
+  min-height: 100vh;
 }
 
-.email-input input {
-  padding: 10px;
-  width: 90%;
-  max-width: 400px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  margin-bottom: 20px;
-}
-
-.cards-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-}
-
-.giftcard-card {
-  width: 90%;
-  max-width: 360px;
-  background: white;
-  border-radius: 15px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  padding: 15px;
-  transition: transform 0.3s;
-}
-
-.giftcard-card:hover {
-  transform: scale(1.02);
-}
-
-.giftcard-image {
-  position: relative;
-  width: 100%;
-  height: 220px;
-  overflow: hidden;
-  border-radius: 12px;
-}
-
-.giftcard-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  user-select: none;
-}
-
-.blurred img {
-  filter: blur(10px);
-  pointer-events: none;
-}
-
-.status-badge {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background: #fff;
-  padding: 6px 10px;
-  border-radius: 8px;
-  font-size: 14px;
-}
-
-.verified {
-  background: #c8f7c5;
-}
-.available {
-  background: #e8f5e9;
-}
-.soldout {
-  background: #ffcdd2;
-}
-
-.qr-section {
-  margin-top: 10px;
-}
-
-.qr-image {
-  width: 200px;
-  height: 200px;
-  border: 2px dashed #ddd;
-  border-radius: 8px;
-  margin-top: 10px;
-}
-
-.download-btn {
-  display: inline-block;
-  margin-top: 10px;
-  background: #007bff;
-  color: white;
-  padding: 10px 16px;
-  border-radius: 8px;
-  text-decoration: none;
-  transition: 0.3s;
-}
-
-.download-btn:hover {
-  background: #0056b3;
-}
-
-.status-message {
-  margin-top: 20px;
-  font-weight: 600;
-  color: #333;
-}
+/* 🟡 Contact Admin Bar */
 .contact-admin {
   background-color: #fff4cc;
   border-bottom: 2px solid #ffd633;
@@ -124,15 +25,161 @@
   text-decoration: underline;
 }
 
+/* 📧 Email input */
+.email-input input {
+  padding: 10px;
+  width: 90%;
+  max-width: 400px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
 
-/* 📱 Mobile responsiveness */
-@media (max-width: 600px) {
+/* 🎁 Cards layout */
+.cards-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+}
+
+/* 🏷️ Individual card */
+.giftcard-card {
+  width: 70%; /* 🟢 Each card takes 70% of page width */
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  transition: transform 0.3s;
+}
+
+.giftcard-card:hover {
+  transform: scale(1.02);
+}
+
+/* 🖼️ Image container */
+.giftcard-image {
+  position: relative;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  border-radius: 12px;
+  background-color: #fafafa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ✅ Image fully visible (not cropped) */
+.giftcard-image img {
+  width: 100%;
+  height: auto;
+  max-height: 260px;
+  object-fit: contain; /* Keeps full image visible */
+  user-select: none;
+  pointer-events: none;
+  border-radius: 12px;
+}
+
+/* 🔒 Locked / blurred state */
+.blurred img {
+  filter: blur(12px);
+  pointer-events: none;
+}
+
+/* 🏷️ Status Badge */
+.status-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: #fff;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.verified {
+  background: #c8f7c5;
+}
+.available {
+  background: #e8f5e9;
+}
+.soldout {
+  background: #ffcdd2;
+}
+
+/* 💳 QR section */
+.qr-section {
+  margin-top: 15px;
+}
+
+.qr-image {
+  width: 220px;
+  height: 220px;
+  border: 2px dashed #ddd;
+  border-radius: 10px;
+  margin-top: 10px;
+  object-fit: contain;
+}
+
+/* ⬇️ Download button */
+.download-btn {
+  display: inline-block;
+  margin-top: 10px;
+  background: #007bff;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.download-btn:hover {
+  background: #0056b3;
+}
+
+/* 📨 Status message */
+.status-message {
+  margin-top: 20px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* ⚡ Disabled card */
+.card-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* 📱 Mobile responsive design */
+@media (max-width: 768px) {
   .giftcard-card {
-    width: 95%;
+    width: 90%; /* On mobile, expand to 90% */
   }
 
   .qr-image {
-    width: 160px;
-    height: 160px;
+    width: 180px;
+    height: 180px;
+  }
+
+  .status-badge {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .giftcard-card {
+    width: 95%;
+    padding: 15px;
+  }
+
+  .giftcard-image img {
+    max-height: 200px;
+  }
+
+  .qr-image {
+    width: 150px;
+    height: 150px;
   }
 }
