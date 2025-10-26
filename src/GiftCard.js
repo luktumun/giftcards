@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./GiftCard.css";
 
-const BACKEND_URL = "https://giftcardbackend-yjp5.onrender.com"; // Replace with your backend URL
+const BACKEND_URL = "https://giftcardbackend-yjp5.onrender.com"; // ✅ Replace with your backend URL
 
 const GiftCard = () => {
   const [giftCards, setGiftCards] = useState([]);
@@ -50,11 +50,12 @@ const GiftCard = () => {
               : c
           )
         );
-        setMessage("✅ Scan Paytm QR and complete your payment.");
+        setMessage("✅ Scan the Paytm QR and complete your payment.");
       } else {
         setMessage("❌ Failed to generate QR.");
       }
     } catch (err) {
+      console.error("Server error:", err);
       setMessage("❌ Server error.");
     }
     setLoading(false);
@@ -73,6 +74,7 @@ const GiftCard = () => {
         orderId,
         cardId,
       });
+
       if (res.data.success) {
         setGiftCards((prev) =>
           prev.map((c) => (c.id === cardId ? { ...c, status: "verified" } : c))
@@ -82,6 +84,7 @@ const GiftCard = () => {
         setMessage("❌ " + res.data.message);
       }
     } catch (err) {
+      console.error("Verification error:", err);
       setMessage("❌ Verification error.");
     }
     setLoading(false);
@@ -118,7 +121,15 @@ const GiftCard = () => {
                 alt={card.brand}
                 draggable="false"
               />
-              <div className={`status-badge ${card.status || "available"}`}>
+              <div
+                className={`status-badge ${
+                  card.status === "verified"
+                    ? "verified"
+                    : card.status === "soldout"
+                    ? "sold-out"
+                    : "available"
+                }`}
+              >
                 {card.status === "verified"
                   ? "✅ Verified"
                   : card.status === "soldout"
@@ -133,12 +144,17 @@ const GiftCard = () => {
             </p>
             <p>Expiry: {card.expiry}</p>
             <p>
-              Value: <strong>{card.payable}</strong>
+              Payable: <strong>{card.payable}</strong>
             </p>
 
             {card.qrImage && card.status !== "soldout" ? (
               <div className="qr-section">
-                <img src={card.qrImage} alt="Paytm QR" className="qr-image" />
+                <img
+                  src={card.qrImage}
+                  alt="Paytm QR"
+                  className="qr-image"
+                  draggable="false"
+                />
                 <p>
                   Pay <strong>{card.payable}</strong> to{" "}
                   <strong>{card.upi}</strong>
