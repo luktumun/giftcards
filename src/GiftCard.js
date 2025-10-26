@@ -104,6 +104,12 @@ const GiftCard = () => {
 
   return (
     <div className="giftcard-page" onContextMenu={(e) => e.preventDefault()}>
+       <div className="contact-admin">
+        <p>
+          📧 Need help? Contact Admin:{" "}
+          <a href="mailto:srajendra923@gmail.com">srajendra923@gmail.com</a>
+        </p>
+      </div>
       <h1>🎁 Gift Card Store</h1>
 
       <div className="email-input">
@@ -163,10 +169,7 @@ const GiftCard = () => {
                   className="qr-image"
                   draggable="false"
                 />
-                <p>
-                  Pay <strong>₹{card.payable}</strong> to{" "}
-                  <strong>{card.upi}</strong>
-                </p>
+               
                 <input
                   type="text"
                   placeholder="Enter UPI Transaction ID (e.g. T123456789)"
