@@ -1,229 +1,120 @@
-/* 🌟 Gift Card Container */
-.card-container {
+.giftcard-page {
   text-align: center;
-  padding: 20px 0;
-  width: 100%;
+  padding: 20px;
+  background: #fafafa;
+  min-height: 100vh;
 }
 
-.card-container h2 {
-  color: #111;
-  font-size: 2rem;
-  margin-bottom: 30px;
+.email-input input {
+  width: 90%;
+  max-width: 400px;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
 }
 
-/* 🧱 Cards Wrapper */
-.cards-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 35px;
-  width: 100%;
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  justify-items: center;
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
 }
 
-/* 🎁 Individual Card Block */
-.card-block {
-  background: #fff;
+.giftcard-card {
+  background: white;
   border-radius: 16px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  width: 70%; /* ✅ Wide enough on desktop */
-  max-width: 900px;
-  padding: 25px;
-  transition: transform 0.3s ease;
-  overflow: hidden;
-}
-
-.card-block:hover {
-  transform: scale(1.02);
-}
-
-/* 🖼️ Card Image Section */
-.card-image {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 16px;
   width: 100%;
+  max-width: 350px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.giftcard-card:hover {
+  transform: translateY(-5px);
+}
+
+.giftcard-image {
+  position: relative;
   border-radius: 12px;
   overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #f0f0f0;
-  margin-bottom: 15px;
 }
 
-.card-image img {
+.giftcard-image img {
   width: 100%;
-  height: auto;
-  max-height: 300px;
-  object-fit: contain; /* ✅ Shows full image without crop */
-  border-radius: 12px;
+  height: 200px;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 .blurred img {
-  filter: blur(3px);
-  opacity: 0.6;
+  filter: blur(6px) brightness(0.8);
 }
 
-.clear img {
-  filter: none;
-  opacity: 1;
-}
-
-/* 🏷️ Status Badge */
-.card-status {
-  font-weight: 600;
-  padding: 8px;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  display: inline-block;
-  text-transform: uppercase;
-  width: fit-content;
-}
-
-.status-available {
-  background-color: #e7f8e8;
-  color: #087f23;
-}
-
-.status-soldout {
-  background-color: #fdecea;
-  color: #d32f2f;
-}
-
-.status-verified {
-  background-color: #e8f0fe;
-  color: #0b57d0;
-}
-
-/* 📋 Card Details */
-.card-details {
-  text-align: left;
-  font-size: 0.95rem;
-}
-
-.card-details p {
-  margin: 6px 0;
-}
-
-/* 💳 QR Code Section */
-.qr-section {
-  text-align: center;
-  margin: 20px 0;
-}
-
-.qr-section p {
-  font-weight: 500;
-  color: #333;
-  margin-bottom: 8px;
-}
-
-.qr-code {
-  width: 100%;
-  max-width: 280px;
-  height: auto;
-  object-fit: contain;
-  border: 2px solid #ddd;
-  border-radius: 10px;
-  padding: 6px;
-  background-color: #fff;
-  transition: transform 0.3s ease;
-}
-
-.qr-code:hover {
-  transform: scale(1.05);
-}
-
-.upi-id {
-  font-size: 0.9rem;
-  color: #555;
-  margin-top: 8px;
-}
-
-/* 💌 Input Fields */
-.email-input,
-.txn-input {
-  width: 100%;
-  padding: 10px;
-  margin: 8px 0;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 0.95rem;
-  outline: none;
-  transition: border 0.2s;
-}
-
-.email-input:focus,
-.txn-input:focus {
-  border-color: #0b57d0;
-}
-
-/* 🧩 Buttons */
-button {
-  background-color: #0b57d0;
+.status-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #000000aa;
   color: white;
-  border: none;
-  padding: 10px 18px;
+  padding: 5px 10px;
   border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  width: 100%;
+  font-size: 0.9rem;
 }
 
-button:hover {
-  background-color: #084bb8;
+.status-badge.verified {
+  background: #4caf50cc;
+}
+.status-badge.soldout {
+  background: #e53935cc;
+}
+
+.qr-section {
+  margin-top: 15px;
+}
+
+.qr-image {
+  width: 180px;
+  height: 180px;
+  border-radius: 10px;
+  margin: 10px auto;
+}
+
+button {
+  padding: 10px 15px;
+  margin-top: 10px;
+  background: #007bff;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
 }
 
 button:disabled {
-  background-color: #999;
-  cursor: not-allowed;
+  background: #aaa;
 }
 
-/* ✅ Messages */
-.error-message {
-  color: #d32f2f;
-  font-size: 0.9rem;
-  margin-top: 6px;
+.status-message {
+  margin-top: 25px;
+  font-size: 1rem;
+  color: #333;
 }
 
-.success-message {
-  color: #087f23;
-  font-weight: 600;
-  margin-top: 10px;
-}
-
-.download-link {
-  display: inline-block;
-  margin-top: 10px;
-  background-color: #4caf50;
-  color: white;
-  padding: 8px 12px;
-  border-radius: 6px;
-  text-decoration: none;
-  font-size: 0.95rem;
-}
-
-.download-link:hover {
-  background-color: #43a047;
-}
-
-/* 📱 Mobile Responsive */
-@media (max-width: 768px) {
-  .card-block {
-    width: 90%; /* ✅ Wider on mobile */
-    padding: 18px;
+/* 📱 Mobile */
+@media (max-width: 600px) {
+  .cards-container {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
-
-  .card-image img {
-    max-height: 220px;
-  }
-
-  .qr-code {
-    max-width: 220px;
-  }
-
-  .card-container h2 {
-    font-size: 1.5rem;
-  }
-
-  .card-details p {
-    font-size: 0.9rem;
+  .giftcard-card {
+    max-width: 95%;
   }
 }
